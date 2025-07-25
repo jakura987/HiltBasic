@@ -37,6 +37,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }
@@ -47,11 +48,18 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+
     kapt("com.google.dagger:hilt-compiler:2.56.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // RxJava2 核心库
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    // RxAndroid：提供 Android main-thread 调度器等
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
