@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity(), Contract.View {
         findViewById<Button>(R.id.button).setOnClickListener {
             presenter.onButtonClicked()
         }
+
+        findViewById<Button>(R.id.blueToothConnection).setOnClickListener{
+            Toast.makeText(this@MainActivity, "blueToothConnect", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun showGreeting(text: String) {
