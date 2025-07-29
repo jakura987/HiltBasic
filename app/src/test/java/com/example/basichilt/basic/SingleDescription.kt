@@ -1,4 +1,4 @@
-package com.example.basichilt
+package com.example.basichilt.basic
 
 import io.reactivex.Single
 
