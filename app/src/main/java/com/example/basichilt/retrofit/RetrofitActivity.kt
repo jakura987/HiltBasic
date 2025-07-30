@@ -3,6 +3,7 @@ package com.example.basichilt.retrofit
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.basichilt.R
@@ -63,17 +64,18 @@ class RetrofitActivity : AppCompatActivity() {
 
         // 发起翻译请求
         val observable: Observable<MyMemoryResponse> = api.translate(
-            q = "hello world",
-            langpair = "en|zh-CN"
+            q = "大熊猫",
+            langpair = "zh-CN|en"
         )
 
 
-        observable.subscribeOn(Schedulers.io())
+        val disposable: Disposable = observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ resp ->
                 if (resp.responseStatus == 200) {
                     val txt = resp.responseData.translatedText
                     Timber.tag("MyMemory").d("result: $txt")
+                    Toast.makeText(this@RetrofitActivity, "$txt", Toast.LENGTH_SHORT).show()
                 } else {
                     Timber.e("错误${resp.responseStatus}")
                 }
@@ -82,8 +84,9 @@ class RetrofitActivity : AppCompatActivity() {
             }, { err ->
                 Timber.tag("RetrofitActivity").e(err, "Error fetching translation")
             }
-
             )
+
+        disposables.addAll(disposable)
     }
 
     override fun onDestroy() {
