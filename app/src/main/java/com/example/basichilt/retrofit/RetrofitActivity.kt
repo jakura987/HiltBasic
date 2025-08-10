@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.basichilt.R
-import com.example.basichilt.model.Translation
 import com.example.basichilt.module.MainActivity
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
