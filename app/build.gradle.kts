@@ -71,7 +71,18 @@ dependencies {
     // RxAndroid：提供 Android main-thread 调度器等
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
+    //wavefrom demo下载的依赖
+    implementation(libs.mpandroidchart)
+    implementation(libs.rxrelay)
+    implementation(libs.autodispose.android)
+    implementation(libs.autodispose.android.archcomponents)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+
 }
+
