@@ -56,8 +56,6 @@ class MainActivity : AppCompatActivity(), Contract.View {
 
 
 
-
-
     override fun showGreeting(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
