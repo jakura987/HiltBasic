@@ -16,12 +16,17 @@ class WavefromActivity : AppCompatActivity() {
         setContentView(R.layout.activity_wavefrom)
 
         findViewById<Button>(R.id.btn_buggy).setOnClickListener {
-            startActivity(Intent(this, WavefromDetailActivity::class.java)
-                .putExtra("buggy", true))
+            startActivity(
+                Intent(this, WavefromDetailActivity::class.java)
+                    .putExtra("fixed", false)
+            )
         }
+
         findViewById<Button>(R.id.btn_fixed).setOnClickListener {
-            startActivity(Intent(this, WavefromDetailActivity::class.java)
-                .putExtra("buggy", false))
+            startActivity(
+                Intent(this@WavefromActivity, WavefromActivity::class.java)
+                    .putExtra("fixed", true)
+            )
         }
     }
 }

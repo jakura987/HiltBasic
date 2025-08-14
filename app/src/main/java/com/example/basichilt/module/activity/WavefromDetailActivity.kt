@@ -1,10 +1,13 @@
 package com.example.basichilt.module.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.basichilt.R
+import com.example.basichilt.module.ble.BtManager
 import com.jakewharton.rxrelay2.PublishRelay
 import com.uber.autodispose.android.ViewScopeProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,45 +17,40 @@ import com.uber.autodispose.autoDispose
 class WavefromDetailActivity : AppCompatActivity() {
 
     private lateinit var tv: TextView
-    private val relay = PublishRelay.create<String>() // 不回放
+    private val relay = PublishRelay.create<String>() // 不回放（与原版一致）
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Timber.forest().isEmpty()) Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_wavefrom_detail)
 
+        findViewById<Button>(R.id.wavefrom_back).setOnClickListener {
+            startActivity((Intent(this@WavefromDetailActivity, WavefromActivity::class.java)))
+        }
+
         tv = findViewById(R.id.tvValue)
 
-        val buggy = intent.getBooleanExtra("buggy", true)
+        // —— 复现“原版偶尔没图”的核心：未 attach 就订阅（绑定 ViewScope）——
+        relay
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(ViewScopeProvider.from(tv))
+            .subscribe({ value ->
+                tv.text = value
+            }, { e ->
+                if (e is com.uber.autodispose.OutsideScopeException) {
+                    Timber.tag("demo").w(e, "OutsideScope — view 未 attach，已忽略")
+                } else {
+                    Timber.tag("demo").e(e, "stream error")
+                }
+            })
 
-        // 进入页面就演示一次
-        if (buggy) {
-            subscribeBuggy()                 // ❌ 未 attach 就订阅（高概率 attached=false）
-            relay.accept("FIRST @ ${System.currentTimeMillis()}") // 这条会丢
-        } else {
-            tv.post {                        // ✅ attach 之后再订阅+发射
-                subscribeFixed()
-                relay.accept("FIRST @ ${System.currentTimeMillis()}")
-            }
-        }
 
-        findViewById<Button>(R.id.btnBuggyOnce).setOnClickListener {
-            subscribeBuggy()
-            relay.accept("BUGGY @ ${System.currentTimeMillis()}") // 大概率丢
-        }
-        findViewById<Button>(R.id.btnFixedOnce).setOnClickListener {
-            tv.post {
-                subscribeFixed()
-                relay.accept("FIXED @ ${System.currentTimeMillis()}") // 一定能到
-            }
-        }
-        findViewById<Button>(R.id.btnEmit).setOnClickListener {
-            relay.accept("EMIT @ ${System.currentTimeMillis()}")
-        }
+        // 立刻发首帧：由于上面订阅可能已被立即 dispose（attached=false），这条会被丢弃
+        relay.accept("FIRST @ ${System.currentTimeMillis()}")
     }
 
-    // ❌ 演示：未 attach 就订阅，AutoDispose 会立即 dispose
-    private fun subscribeBuggy() {
+
+    private fun subscribeCommon() {
         relay
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
@@ -62,27 +60,13 @@ class WavefromDetailActivity : AppCompatActivity() {
                 Timber.tag("demo").d("DISPOSED (maybe not attached)")
             }
             .autoDispose(ViewScopeProvider.from(tv))
-            .subscribe { value ->
+            .subscribe({ value ->
                 tv.text = value
                 Timber.tag("demo").d("RECEIVED: %s", value)
-            }
-    }
-
-    // ✅ 正确：等 attach 后订阅（通过 post 确保 isAttachedToWindow=true）
-    private fun subscribeFixed() {
-        relay
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                Timber.tag("demo").d("SUBSCRIBE attached=%s", tv.isAttachedToWindow)
-            }
-            .doOnDispose {
-                Timber.tag("demo").d("DISPOSED")
-            }
-            .autoDispose(ViewScopeProvider.from(tv))
-            .subscribe { value ->
-                tv.text = value
-                Timber.tag("demo").d("RECEIVED: %s", value)
-            }
+            }, { e ->
+                // 防止 OnErrorNotImplementedException 崩溃
+                Timber.tag("demo").w(e, "stream error (可能是 OutsideScope: 未 attach)")
+            })
     }
 }
 

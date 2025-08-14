@@ -10,20 +10,24 @@
         android:id="@+id/btn_buggy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="进入【故障版】详情（未 attach 就订阅）"
+        android:text="进入详情页(复现原版：不显示数据)"
         app:layout_constraintBottom_toTopOf="@+id/btn_fixed"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.932" />
+        app:layout_constraintVertical_bias="0.732" />
 
     <Button
         android:id="@+id/btn_fixed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="428dp"
-        android:text="进入【修复版】详情（attach 后订阅）"
+        android:text="进入详情页(修复版（attach后订阅）)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.455" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
