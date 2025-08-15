@@ -49,15 +49,17 @@ class WavefromDetailActivity : AppCompatActivity() {
 //    .observeOn(AndroidSchedulers.mainThread())   // A
 //    .doOnSubscribe { … }                         // B 开始订阅后被调用 （记录）
 //    .doOnDispose { … }                           // C 订阅被取消时调用 （记录）
-//    .autoDispose(ViewScopeProvider.from(tv))     // D 自动绑定Rx链到某个Android生命周期 （避免在 UI 已销毁后还继续回调）
+//    .autoDispose(ViewScopeProvider.from(tv))     // D 自动绑定Rx链到某个Android生命周期 （避免在 UI 已销毁后还继续回调）（给订阅加保险）
 //    .subscribe(onNext, onError)                  // E
     private fun subscribeCommon() {
         relay.observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 Timber.tag("demo").d("SUBSCRIBE attached=%s", tv.isAttachedToWindow)
-            }.doOnDispose {
+            }
+            .doOnDispose {
                 Timber.tag("demo").d("DISPOSED (maybe not attached)")
-            }.autoDispose(ViewScopeProvider.from(tv))
+            }
+            .autoDispose(ViewScopeProvider.from(tv))
             .subscribe({ value ->
                 tv.text = value
                 Timber.tag("demo").d("RECEIVED: %s", value)
