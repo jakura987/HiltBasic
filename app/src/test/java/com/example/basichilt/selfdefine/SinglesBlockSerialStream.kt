@@ -33,6 +33,12 @@ fun sendInChunks_EmitAllAcks(chunks: List<ByteArray>): Observable<String> {
 
 }
 
+//todo test项目里的方法
+//有内部流要手动驱动（Observable.fromIterable…）→ 用 Single.create{…} 时要在内部 .subscribe()。
+//
+//只有一次同步调用 → 在 create 内直接 emitter.onSuccess/onError，不需要 .subscribe()。
+//
+//doOnComplete 属于 Observable，Single 只有 doOnSuccess／doOnError／doFinally。
 
 
 

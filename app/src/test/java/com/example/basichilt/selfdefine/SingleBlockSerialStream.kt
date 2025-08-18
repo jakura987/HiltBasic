@@ -23,7 +23,7 @@ private fun stepB(): Single<String> {
 
 fun sendInChunks_WithCreate2(chunks: List<ByteArray>): Single<String> {
     //emitter: 发送信号给下游订阅者
-    var single: Single<String> = Single.create<String> { emitter ->
+    val single: Single<String> = Single.create<String> { emitter ->
         Observable.fromIterable(chunks)
             .concatMapSingle { chunk ->
                 stepA(chunk)
@@ -53,6 +53,20 @@ fun sendInChunks_LastAck(chunks: List<ByteArray>): Single<String> {
         .last("ALL_DONE")        // 如果流发了 N 个 ACK，就取最后一个；若没有任何元素，就返回 "ALL_DONE"
 }
 
+fun sendInChunks(chunks: List<ByteArray>): Single<String> {
+    return Observable.fromIterable(chunks)
+        .concatMapSingle { chunk ->
+            stepA(chunk)
+                .flatMap { stepB() }
+                .doOnSuccess { ack -> println("← ack for ${chunk.size}B: $ack") }
+        }
+        .ignoreElements()                 // 等所有 Single 都完成
+        .andThen(Single.just("ALL_DONE")) // 再发出最终结果
+
+}
+
+
+
 
 
 // ====== 试跑 ======
@@ -61,13 +75,13 @@ fun main() {
     val chunks = listOf(
         ByteArray(5), ByteArray(7), ByteArray(3)
     )
-    sendInChunks_WithCreate2(chunks)
+    sendInChunks(chunks)
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())
         .subscribe(
             { result -> println("FINAL: $result") },
             { e -> println("ERROR: ${e.message}") }
         )
-    Thread.sleep(600)
+    Thread.sleep(2000)
 }
 
