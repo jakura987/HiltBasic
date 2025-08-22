@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.basichilt.BuildConfig
 import com.example.basichilt.R
+import com.example.basichilt.analyzermodule.AnalyzeActivity
 import com.example.basichilt.module.activity.WavefromActivity
 import com.example.basichilt.module.basicFun.BasicImplement
 import com.example.basichilt.module.basicFun.BasicInterface
@@ -50,6 +51,11 @@ class MainActivity : AppCompatActivity(), Contract.View {
 
         findViewById<Button>(R.id.waveDemo_btn).setOnClickListener{
             val intent: Intent = Intent(this@MainActivity, WavefromActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.analyzer_btn).setOnClickListener {
+            var intent: Intent = Intent(this@MainActivity, AnalyzeActivity::class.java)
             startActivity(intent)
         }
     }

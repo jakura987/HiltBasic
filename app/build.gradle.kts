@@ -39,6 +39,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -58,6 +59,7 @@ dependencies {
     
 
     implementation ("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation(libs.androidx.databinding.runtime)
 
 
     kapt("com.google.dagger:hilt-compiler:2.56.2")

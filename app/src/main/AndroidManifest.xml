@@ -32,6 +32,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".analyzermodule.AnalyzeActivity"
+            android:exported="false" />
+        <activity
             android:name=".module.activity.WavefromDetailActivity"
             android:exported="false" />
         <activity
