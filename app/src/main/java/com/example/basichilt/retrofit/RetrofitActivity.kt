@@ -1,5 +1,6 @@
 package com.example.basichilt.retrofit
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -26,6 +27,7 @@ import timber.log.Timber
 class RetrofitActivity : AppCompatActivity() {
     private val disposables = CompositeDisposable()
 
+    @SuppressLint("AutoDispose")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

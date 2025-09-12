@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_start_ap"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="开启热点"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        />
+
+    <Button
+        android:id="@+id/btn_stop_ap"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="关闭热点"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_ap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="状态：未启动"
+        android:textSize="16sp"
+        android:textColor="#333"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btn_stop_ap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        />
+
+    <Button
+        android:id="@+id/backtpPrevious"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="返回"
+        app:layout_constraintTop_toBottomOf="@id/tv_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

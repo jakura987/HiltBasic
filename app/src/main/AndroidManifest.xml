@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- android:maxSdkVersion="32" -->
+
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -19,6 +19,13 @@
     <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- WIFI -->
+    <!-- 从 Android 8 起，开启 LOHS 需要定位权限（前台精确定位） -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!--  -->
     <uses-feature android:name="android.hardware.usb.host" />
 
     <application
@@ -31,6 +38,9 @@
         android:theme="@style/Theme.BasicHilt"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".wifiAP.WifiActivity"
+            android:exported="false" />
         <activity
             android:name=".analyzermodule.AnalyzeActivity"
             android:exported="false" />
