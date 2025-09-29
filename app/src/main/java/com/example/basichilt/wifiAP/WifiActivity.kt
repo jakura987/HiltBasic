@@ -34,7 +34,7 @@ class WifiActivity : AppCompatActivity() {
 
     // 新增：服务端
     private var server: SimpleServer? = null
-    private val serverPort = 5555
+    private val serverPort = 5556
     private val uiHandler = Handler(Looper.getMainLooper())
     private val bg = java.util.concurrent.Executors.newSingleThreadExecutor()
 
@@ -62,6 +62,8 @@ class WifiActivity : AppCompatActivity() {
         btnStop.setOnClickListener { stopHotspot() }
 
         btnBack.setOnClickListener {
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) stopHotspot() // 包含 server.stop()
+            //finish() // ✅ 结束当前 Activity，释放旧实例
             startActivity(Intent(this@WifiActivity, MainActivity::class.java))
         }
     }
