@@ -11,22 +11,36 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.USB_PERMISSION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- WIFI -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- WIFI -->
     <!-- 从 Android 8 起，开启 LOHS 需要定位权限（前台精确定位） -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--  -->
+    <uses-feature android:name="android.hardware.usb.host" />
+
+
+    <!-- Android 13+ 用于附近 Wi-Fi 操作（非定位用途） -->
+    <uses-permission
+        android:name="android.permission.NEARBY_WIFI_DEVICES"
+        android:usesPermissionFlags="neverForLocation" />
+
+    <!-- 兼容 Android 12 及以下（<=32），LOHS 需要前台定位权限 -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="32" />
+
+    <!-- 控制/读取 Wi-Fi 状态 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!--  -->
-    <uses-feature android:name="android.hardware.usb.host" />
+    <!-- 开 TCP 服务器 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -38,6 +52,9 @@
         android:theme="@style/Theme.BasicHilt"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".wifiAP2.WifiActivity2"
+            android:exported="false" />
         <activity
             android:name=".wifiAP.WifiActivity"
             android:exported="false" />

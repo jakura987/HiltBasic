@@ -16,6 +16,7 @@ import com.example.basichilt.module.ble.BtManager
 import com.example.basichilt.module.contract.Contract
 import com.example.basichilt.retrofit.RetrofitActivity
 import com.example.basichilt.wifiAP.WifiActivity
+import com.example.basichilt.wifiAP2.WifiActivity2
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -64,6 +65,13 @@ class MainActivity : AppCompatActivity(), Contract.View {
             var intent: Intent = Intent(this@MainActivity, WifiActivity::class.java)
             startActivity(intent)
 
+        }
+
+        findViewById<Button>(R.id.chance).setOnClickListener{
+            //Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
+            //todo
+            var intent: Intent = Intent(this@MainActivity, WifiActivity2::class.java)
+            startActivity(intent)
         }
     }
 
